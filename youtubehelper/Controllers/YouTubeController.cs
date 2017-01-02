@@ -1,4 +1,4 @@
-﻿using GoogleAnalyticsTracker.WebApi;
+﻿using GoogleAnalyticsTracker.WebAPI2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
