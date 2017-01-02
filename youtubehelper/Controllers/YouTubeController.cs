@@ -14,6 +14,14 @@ namespace youtubehelper.Controllers
     [RoutePrefix("api/youtube")]
     public class YouTubeController : ApiController
     {
+        /// <summary>
+        /// Retrieves a list of videos from the specified channel
+        /// </summary>
+        /// <param name="apiKey"></param>
+        /// <param name="playlistId"></param>
+        /// <param name="maxResults"></param>
+        /// <param name="pageToken"></param>
+        /// <returns></returns>
         [Route("channelvideos")]
         public async Task<ChannelVideoListResponse> GetChannelVideos(string apiKey, string playlistId, string maxResults, string pageToken = null)
         {
