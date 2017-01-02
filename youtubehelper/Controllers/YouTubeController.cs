@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoogleAnalyticsTracker.WebApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -43,6 +44,11 @@ namespace youtubehelper.Controllers
             //get videos stats
             url = new Uri($"https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={ids}&maxResults={maxResults}&key={apiKey}");
             var videoListResponse = await client.GetJsonObject<VideoListResponse>(url);
+
+            using (Tracker tracker = new Tracker("UA-55372977-14", "www.youtubehelper.apphb.com"))
+            {
+                var res = await tracker.TrackPageViewAsync(Request, "channelvideos");
+            }
 
             return new ChannelVideoListResponse
             {
