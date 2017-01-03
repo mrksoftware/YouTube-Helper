@@ -24,7 +24,7 @@ namespace youtubehelper.Controllers
         /// <param name="pageToken"></param>
         /// <returns></returns>
         [Route("channelvideos")]
-        public async Task<ChannelVideoListResponse> GetChannelVideos(string apiKey, string playlistId, string maxResults, string pageToken = null)
+        public async Task<ChannelVideoListResponse> GetChannelVideos(string apiKey, string playlistId, string maxResults, string pageToken = null, string analyticsKey = null)
         {
             Uri url;
             if (pageToken != null)
@@ -45,9 +45,12 @@ namespace youtubehelper.Controllers
             url = new Uri($"https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={ids}&maxResults={maxResults}&key={apiKey}");
             var videoListResponse = await client.GetJsonObject<VideoListResponse>(url);
 
-            using (Tracker tracker = new Tracker("UA-55372977-14", "www.youtubehelper.apphb.com"))
+            if (!string.IsNullOrWhiteSpace(analyticsKey))
             {
-                var res = await tracker.TrackPageViewAsync(Request, "channelvideos");
+                using (Tracker tracker = new Tracker(analyticsKey, "www.youtubehelper.apphb.com"))
+                {
+                    var res = await tracker.TrackPageViewAsync(Request, "channelvideos");
+                }
             }
 
             return new ChannelVideoListResponse
